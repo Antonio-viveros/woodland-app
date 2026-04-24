@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Woodland Script Generator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#0e1a0e;
+  --card:#1c2c1c;
+  --lime:#a8d832;
+  --lime-dim:rgba(168,216,50,0.12);
+  --cream:#f0ead8;
+  --muted:rgba(240,234,216,0.5);
+  --mono:'JetBrains Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:var(--bg);
+  color:var(--cream);
+  font-family:'Syne',sans-serif;
+}
+
+.wrap{max-width:720px;margin:auto;padding:40px 20px;}
+
+h1{font-family:'Bebas Neue';font-size:60px;}
+h1 em{color:var(--lime);font-style:normal;}
+
+.selector-block{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+}
+
+.day-grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:8px;
+}
+
+.day-btn{
+  padding:10px;
+  background:#222;
+  border:none;
+  color:var(--cream);
+  cursor:pointer;
+}
+
+.day-btn.active{
+  background:var(--lime);
+  color:#000;
+}
+
+button{
+  cursor:pointer;
+}
+
+.gen-btn{
+  width:100%;
+  padding:15px;
+  margin-top:20px;
+  background:var(--lime);
+  border:none;
+  font-weight:bold;
+}
+
+.output{
+  margin-top:20px;
+  background:#111;
+  padding:15px;
+  border-radius:10px;
+  white-space:pre-wrap;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<h1>Script <em>Generator</em></h1>
+
+<div class="selector-block">
+  <h3>Select Day</h3>
+  <div class="day-grid" id="grid"></div>
+</div>
+
+<button class="gen-btn" onclick="generate()">Generate Script</button>
+
+<div class="output" id="output">Your script will appear here...</div>
+
+</div>
+
+<script>
+const TOPICS = [
+"why does my mower leave streaks and how to fix it",
+"Exmark vs Toro comparison",
+"what happens if you never service your mower",
+"gas vs electric equipment pros and cons",
+"why we started our equipment business",
+"how to sharpen mower blades",
+"first time zero turn experience",
+"backpack blower review",
+"what dealers won’t tell you",
+"how to winterize equipment"
+];
+
+let selected = 0;
+
+// build buttons
+const grid = document.getElementById("grid");
+
+TOPICS.forEach((t,i)=>{
+  const b=document.createElement("button");
+  b.textContent=i+1;
+  b.className="day-btn";
+  b.onclick=()=>select(i,b);
+  grid.appendChild(b);
+});
+
+function select(i,b){
+  selected=i;
+  document.querySelectorAll(".day-btn").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+}
+
+function generate(){
+  const topic = TOPICS[selected];
+
+  const script = `
+HOOK:
+Stop scrolling — this is something every mower owner needs to know.
+
+TOPIC:
+${topic}
+
+BODY:
+Here’s the real breakdown in simple terms. Most people miss this step and it costs them time and money. If you do this correctly, your equipment will last way longer and perform better.
+
+CTA:
+Follow for more real shop tips and equipment advice.
+`;
+
+  document.getElementById("output").innerText = script;
+}
+</script>
+
+</body>
+</html>
